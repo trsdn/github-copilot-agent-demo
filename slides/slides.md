@@ -1,127 +1,171 @@
 ---
 marp: true
 theme: uncover
-title: "Github Copilot - How to Work in Agent Mode"
-/**
- * @auto-scaling
- */
+title: "VibeCoding with GitHub Copilot (Agent Mode)"
+paginate: true
+style: |
+  section { font-size: 32px; }
+  h1,h2,h3 { letter-spacing: 0.2px; }
+  .eyebrow { font-size: 22px; color: #6b7280; text-transform: uppercase; letter-spacing: 1px; }
+  .cta { background: #2563eb; color: #fff; padding: 12px 16px; border-radius: 8px; display: inline-block; }
+  .pill { display: inline-block; padding: 6px 12px; border-radius: 999px; background: #eef2ff; color: #3730a3; margin-right: 8px; }
 ---
+
 <!-- class: invert -->
+# VibeCoding with GitHub Copilot  
+### Build more, type less.
 
-# Github Copilot - How to Work in Agent Mode
-
-## 🚀 Exciting demo on Agent Mode
-
-## ⚡ Discover how Agent Mode can supercharge your coding workflow
-
-## 💡 Practical tips
+**Turn your ideas into working results while Copilot handles the busywork.**  
 
 ---
 
+## What you’ll take away
 
-# A quick intro​
-
-## 🔧 GitHub Copilot Completion
-
-## 💬 GitHub Copilot Chat
-
----
-
-# The challenge​
-
-## 🌍 How to give Copilots access to the world?
+- **What “VibeCoding” means** (in plain language)  
+- **How Agent Mode helps:** plans → acts → reports back  
+- **Everyday workflows** you can automate  
+- **A simple calculator demo**  
+- **Tips** to get great results without deep tech
 
 ---
 
+## What is VibeCoding?
 
-# LLMs Are Disconnected from the World
+VibeCoding is **creating software by describing outcomes**, not writing every line.  
+You **explain the goal**, Copilot **proposes a plan**, runs tools, and **brings back results** for you to approve or refine.
 
-## 📅 Training data cut off
-
-## 🌐 Trained on public data
-
-## 🚫 Cannot call APIs
-
-## 🔍 Cannot search the web
-
-## 🔒 No access to internal information
+- Speak in tasks and examples, not syntax  
+- Review quickly, iterate fast  
+- Ship value with fewer handoffs
 
 ---
 
-# Meet Your Host
+## Why it matters (for everyone)
 
-## **Torsten Mahr** 
-### Microsoft - Technology Strategist
-
-### 🔗 LinkedIn [https://www.linkedin.com/in/torstenmahr/](https://www.linkedin.com/in/torstenmahr/)
-
----
-
-# What is Agent Mode?
-
-## 🤖 AI plans & performs multi-step tasks
-
-## 🛠️ Invokes tools to edit files, run commands, test code, access data
-
-## 👥 Acts as an AI pair-programmer
-
-## ⚡ **Benefit**: Reduces manual overhead, boosts productivity
+- **Speed:** from idea → prototype → iteration in hours  
+- **Access:** non‑specialists can contribute meaningfully  
+- **Focus:** you spend time on decisions, not boilerplate  
+- **Quality:** quick feedback loops reduce rework
 
 ---
 
-# What is MCP?
+## Meet your host
 
-## 🔌 Model Context Protocol (MCP)
-
-## 🌐 Allows Copilot to communicate with external tools
-
-### Examples:
-
-- 🎭 Playwright: Automated browser tests
-- 📂 GitHub API: Create and manage issues
-
-## ✨ Enables Copilot to run tests, automate workflows, and more
+**Torsten Mahr** — Technology Strategist  
+🔗 LinkedIn: https://www.aitorsten.com
 
 ---
 
-![image](mcp-architecture.svg)
+## Agent Mode in one sentence
+
+**Agent Mode = your AI teammate** that can **plan steps and take actions** (edit files, run commands, open issues, test code) while **keeping you in the loop** for approvals.
 
 ---
 
-# Setup (Prerequisites)
+## How it feels (no jargon)
 
-## 🔑 Copilot Chat & Agent Mode access
+1. **Say the goal**  
+   “Create a lightweight web tool that calculates costs and shares a link.”
 
-## 🔄 Update VS Code & Copilot extension
+2. **Copilot proposes a plan**  
+   Pages, buttons, quick tests, and a share action.
 
-## 📦 Install MCP servers (e.g., Playwright)
+3. **You approve** parts of the plan.
 
-## 🚀 Start MCP servers 
+4. **Copilot executes** and reports back results.
 
-## 💡 **Tip:** Enable `chat.tools.autoApprove`
-
----
-
-# Demo: Calculator
-
-##  🎉 Let's have fun!
-
-### We'll show:
-
-- 🧮 Creating a basic calculator
-- ✅ Automating tests via Playwright MCP
-- ⚙️ Copilot performing automated code improvements
+5. **You tweak the experience** (“Make it dark mode and add export to CSV.”)
 
 ---
 
-# Q&A
+## Connecting Copilot to the world (simple view)
 
-## ❓ What workflows to automate?
+Think of **plugins** that let Copilot act:
+- **Browser & testing** (e.g., run a quick test)
+- **GitHub** (create issues, open PRs)
+- **Docs & data** (read a sheet, summarise a PDF)
+- **Local tasks** (edit files, run a script)
 
-## 🤔 Questions about Agent Mode or MCP?
+All **with your approval** and a clear activity log.
 
 ---
 
-# Thank You!
+## What can you automate this week?
 
-##  ⛵ Fair winds & happy coding, matey!
+- **Housekeeping:** organise a repo, add README, clean up TODOs  
+- **Quality sweep:** generate basic tests, run them, summarise failures  
+- **Documentation:** draft “getting started,” add screenshots, create a changelog  
+- **Backlog hygiene:** triage issues, label, create follow‑ups  
+- **Demos:** spin up a simple calculator or form app and share a link
+
+---
+
+## Demo: Let’s build a calculator together!
+
+**Goal:** a playful calculator with a crisp UI and a shareable result.
+
+1. **Ask Copilot:**  “Create a simple calculator app with two inputs and a total button.”
+
+2. **Approve the plan:**  Copilot suggests the layout, files, and logic.
+
+3. **Polish it:**  “Add dark mode, make it mobile-friendly, and export results.”
+
+4. **Test it:**  “Add a quick test and show me the result.”
+
+5. **Share:**  Copilot packages the app and gives you a link or ZIP.
+
+---
+
+## VibeCoding for business teams
+
+- **Ops:** auto‑generate runbooks from steps you already do  
+- **Sales/Success:** tailor a demo workspace and capture notes into CRM  
+- **HR/Comms:** draft FAQ pages from existing documents  
+- **Finance/PMO:** reconcile lists, flag anomalies, summarise trends
+
+---
+
+## Guardrails that build trust
+
+- **You approve actions**; nothing runs silently  
+- **Readable plans** before execution  
+- **Activity history** you can review  
+- **Scoped access** to only the tools you enable
+
+---
+
+## Tips for great outcomes
+
+- Start with a **clear, small goal**  
+- Ask for a **plan first**, then approve in chunks  
+- Provide **examples** of “good” vs “not good”  
+- Iterate: “**Tighter copy**, fewer clicks, add tooltip”  
+- Use **screenshots** and small files to guide changes
+
+---
+
+## VibeCoding mindset (quick check)
+
+If you had a talented new teammate, you would **break work into steps, give context, review, and coach**.  
+Treat Copilot the **same way**—and it shines.
+
+---
+
+## Quick FAQ
+
+**Is this coding without coding?**  
+Not exactly—**it’s directing** the coding with faster feedback loops.
+
+**What if it makes a mistake?**  
+That’s expected—**review, nudge, and retry**. It’s fast.
+
+**Where do I start?**  
+Pick a **tiny workflow** you repeat weekly; automate that first.
+
+---
+
+## Thank you!
+
+**Fair winds & happy coding!**  
+
+---
