@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pirate Calculator - Arrr-ithmetic Mate!</title>
+    <meta name="description" content="A pirate-themed calculator with a special Easter egg mode. Perfect for all your seafaring calculations!">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="calculator-container">
+        <header class="calculator-header">
+            <h1>Title</h1>
+        </header>
+        
+        <div class="calculator" id="calculator">
+            <!-- Pirate Mode Indicator -->
+            <div class="pirate-mode-indicator" id="pirate-mode-indicator" style="display: none;">
+                <span class="skull">💀</span> PIRATE MODE ACTIVE <span class="skull">💀</span>
+            </div>
+            
+            <!-- Display Screen - Output at bottom like sketch -->
+            <div class="display-container">
+                <div class="secondary-display" id="secondary-display"></div>
+                <div class="main-display" id="main-display" aria-live="polite">0</div>
+            </div>
+            
+            <!-- Button Grid - Matching sketch layout -->
+            <div class="button-grid">
+                <!-- Row 1: 9, 6, 1 -->
+                <button class="btn btn-number" id="nine-btn" data-number="9">9</button>
+                <button class="btn btn-number" id="six-btn" data-number="6">6</button>
+                <button class="btn btn-number" id="one-btn" data-number="1">1</button>
+                
+                <!-- Row 2: 2, 8, 3 -->
+                <button class="btn btn-number" id="two-btn" data-number="2">2</button>
+                <button class="btn btn-number" id="eight-btn" data-number="8">8</button>
+                <button class="btn btn-number" id="three-btn" data-number="3">3</button>
+                
+                <!-- Row 3: 7, 5, 4 -->
+                <button class="btn btn-number" id="seven-btn" data-number="7">7</button>
+                <button class="btn btn-number" id="five-btn" data-number="5">5</button>
+                <button class="btn btn-number" id="four-btn" data-number="4">4</button>
+            </div>
+            
+            <!-- Additional control buttons -->
+            <div class="control-buttons" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 10px 0;">
+                <button class="btn btn-number" id="zero-btn" data-number="0">0</button>
+                <button class="btn btn-operator" id="add-btn" aria-label="Add">+</button>
+                <button class="btn btn-operator" id="subtract-btn" aria-label="Subtract">-</button>
+                <button class="btn btn-operator" id="multiply-btn" aria-label="Multiply">×</button>
+                <button class="btn btn-operator" id="divide-btn" aria-label="Divide">÷</button>
+                <button class="btn btn-equals" id="equals-btn" aria-label="Equals">=</button>
+                <button class="btn btn-function" id="clear-btn" aria-label="Clear all">C</button>
+                <button class="btn btn-decimal" id="decimal-btn" aria-label="Decimal point">.</button>
+            </div>
+        </div>
+        
+        <!-- Error/Message Display -->
+        <div class="message-container" id="message-container" style="display: none;">
+            <div class="message" id="message-display" aria-live="assertive"></div>
+        </div>
+        
+        <footer class="calculator-footer" style="display: none;">
+            <!-- Footer hidden for cleaner look -->
+        </footer>
+    </div>
+    
+    <script src="calculator.js"></script>
+</body>
+</html>

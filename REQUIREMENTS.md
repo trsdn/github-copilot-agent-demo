@@ -85,6 +85,7 @@ This calculator serves as a multi-purpose computational tool designed for both g
 - No sensitive data storage required
 - Client-side only calculations (no server communication)
 - Input sanitization to prevent calculation injection
+- I want
 
 ## Success Metrics
 

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pirate Calculator Tests</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .pass { background: #d4edda; color: #155724; }
+        .fail { background: #f8d7da; color: #721c24; }
+        .test-section { margin: 20px 0; border: 1px solid #ccc; padding: 15px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🏴‍☠️ Pirate Calculator Test Suite</h1>
+    
+    <div id="test-results"></div>
+    
+    <script>
+        // Simple test framework
+        class TestSuite {
+            constructor() {
+                this.tests = [];
+                this.results = document.getElementById('test-results');
+            }
+            
+            test(name, testFn) {
+                this.tests.push({ name, testFn });
+            }
+            
+            async run() {
+                this.results.innerHTML = '<h2>Running Tests...</h2>';
+                let passed = 0;
+                let failed = 0;
+                
+                for (const test of this.tests) {
+                    try {
+                        await test.testFn();
+                        this.addResult(test.name, true);
+                        passed++;
+                    } catch (error) {
+                        this.addResult(test.name, false, error.message);
+                        failed++;
+                    }
+                }
+                
+                this.addSummary(passed, failed);
+            }
+            
+            addResult(name, passed, error = '') {
+                const div = document.createElement('div');
+                div.className = `test ${passed ? 'pass' : 'fail'}`;
+                div.innerHTML = `
+                    <strong>${passed ? '✅' : '❌'} ${name}</strong>
+                    ${error ? `<br><small>Error: ${error}</small>` : ''}
+                `;
+                this.results.appendChild(div);
+            }
+            
+            addSummary(passed, failed) {
+                const div = document.createElement('div');
+                div.className = 'test-section';
+                div.innerHTML = `
+                    <h3>Test Summary</h3>
+                    <p><strong>Passed:</strong> ${passed}</p>
+                    <p><strong>Failed:</strong> ${failed}</p>
+                    <p><strong>Total:</strong> ${passed + failed}</p>
+                `;
+                this.results.appendChild(div);
+            }
+        }
+        
+        // Test calculator functionality
+        const suite = new TestSuite();
+        
+        // Basic arithmetic tests
+        suite.test('Basic Addition: 2 + 3 = 5', () => {
+            const calc = new PirateCalculator();
+            calc.inputNumber('2');
+            calc.inputOperator('+');
+            calc.inputNumber('3');
+            calc.calculate();
+            if (calc.currentNumber !== '5') {
+                throw new Error(`Expected 5, got ${calc.currentNumber}`);
+            }
+        });
+        
+        suite.test('Basic Subtraction: 10 - 4 = 6', () => {
+            const calc = new PirateCalculator();
+            calc.inputNumber('10');
+            calc.inputOperator('-');
+            calc.inputNumber('4');
+            calc.calculate();
+            if (calc.currentNumber !== '6') {
+                throw new Error(`Expected 6, got ${calc.currentNumber}`);
+            }
+        });
+        
+        suite.test('Basic Multiplication: 7 × 8 = 56', () => {
+            const calc = new PirateCalculator();
+            calc.inputNumber('7');
+            calc.inputOperator('*');
+            calc.inputNumber('8');
+            calc.calculate();
+            if (calc.currentNumber !== '56') {
+                throw new Error(`Expected 56, got ${calc.currentNumber}`);
+            }
+        });
+        
+        suite.test('Basic Division: 15 ÷ 3 = 5', () => {
+            const calc = new PirateCalculator();
+            calc.inputNumber('15');
+            calc.inputOperator('/');
+            calc.inputNumber('3');
+            calc.calculate();
+            if (calc.currentNumber !== '5') {
+                throw new Error(`Expected 5, got ${calc.currentNumber}`);
+            }
+        });
+        
+        suite.test('Decimal Operations: 2.5 + 1.5 = 4', () => {
+            const calc = new PirateCalculator();
+            calc.inputNumber('2');
+            calc.inputDecimal();
+            calc.inputNumber('5');
+            calc.inputOperator('+');
+            calc.inputNumber('1');
+            calc.inputDecimal();
+            calc.inputNumber('5');
+            calc.calculate();
+            if (calc.currentNumber !== '4') {
+                throw new Error(`Expected 4, got ${calc.currentNumber}`);
+            }
+        });
+        
+        suite.test('Division by Zero Error Handling', () => {
+            const calc = new PirateCalculator();
+            calc.inputNumber('5');
+            calc.inputOperator('/');
+            calc.inputNumber('0');
+            calc.calculate();
+            // Should remain at 5 and show error message
+            if (calc.currentNumber !== '5') {
+                throw new Error(`Expected error handling to keep value at 5, got ${calc.currentNumber}`);
+            }
+        });
+        
+        suite.test('Pirate Mode Activation with 7734', () => {
+            const calc = new PirateCalculator();
+            calc.inputNumber('7');
+            calc.inputNumber('7');
+            calc.inputNumber('3');
+            calc.inputNumber('4');
+            if (!calc.isPirateMode) {
+                throw new Error('Pirate mode should be activated after entering 7734');
+            }
+        });
+        
+        suite.test('Clear Function Resets Calculator', () => {
+            const calc = new PirateCalculator();
+            calc.inputNumber('123');
+            calc.inputOperator('+');
+            calc.inputNumber('456');
+            calc.clear();
+            if (calc.currentNumber !== '0' || calc.previousNumber !== '' || calc.operator !== '') {
+                throw new Error('Clear should reset all calculator state');
+            }
+        });
+        
+        // Load calculator script and run tests
+        const script = document.createElement('script');
+        script.src = 'calculator.js';
+        script.onload = () => {
+            setTimeout(() => {
+                suite.run();
+            }, 100);
+        };
+        document.head.appendChild(script);
+    </script>
+</body>
+</html>

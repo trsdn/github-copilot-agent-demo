@@ -1,0 +1,317 @@
+/* Pirate Calculator Styles - Arrr-some Design! */
+
+/* CSS Variables for Commerzbank Corporate Theme */
+:root {
+    --commerzbank-yellow: #FFD320;
+    --commerzbank-blue: #005CA9;
+    --commerzbank-dark-blue: #003d82;
+    --commerzbank-light-gray: #f5f5f5;
+    --commerzbank-dark-gray: #2c2c2c;
+    --commerzbank-white: #ffffff;
+    --shadow-deep: rgba(0, 0, 0, 0.3);
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --text-light: #ffffff;
+    --text-dark: #2c2c2c;
+}
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    background: linear-gradient(135deg, var(--commerzbank-blue) 0%, var(--commerzbank-dark-blue) 50%, var(--commerzbank-blue) 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: var(--text-light);
+}
+
+/* Main Calculator Container */
+.calculator-container {
+    background: var(--commerzbank-white);
+    border: 2px solid var(--commerzbank-blue);
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 300px;
+    width: 100%;
+    color: var(--text-dark);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styles */
+.calculator-header {
+    text-align: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: var(--commerzbank-light-gray);
+    border-radius: 4px;
+    border: 1px solid var(--commerzbank-blue);
+}
+
+.calculator-header h1 {
+    font-size: 1.2rem;
+    color: var(--commerzbank-blue);
+    margin-bottom: 0;
+    font-weight: normal;
+}
+
+.subtitle {
+    display: none; /* Hide subtitle for cleaner look */
+}
+
+/* Calculator Body */
+.calculator {
+    background: var(--commerzbank-white);
+    border: none;
+    padding: 0;
+}
+
+/* Pirate Mode Indicator */
+.pirate-mode-indicator {
+    background: var(--commerzbank-yellow);
+    color: var(--commerzbank-blue);
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    animation: commerzGlow 2s ease-in-out infinite alternate;
+    border: 2px solid var(--commerzbank-blue);
+}
+
+@keyframes commerzGlow {
+    from { box-shadow: 0 0 10px var(--commerzbank-yellow); }
+    to { box-shadow: 0 0 20px var(--commerzbank-blue); }
+}
+
+.skull {
+    animation: skullBob 1.5s ease-in-out infinite;
+}
+
+@keyframes skullBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+/* Display Container - Output at bottom like sketch */
+.display-container {
+    background: var(--commerzbank-light-gray);
+    border: 1px solid var(--commerzbank-blue);
+    border-radius: 4px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.secondary-display {
+    color: #666;
+    font-size: 0.9rem;
+    text-align: right;
+    min-height: 1rem;
+    margin-bottom: 5px;
+}
+
+.main-display {
+    color: var(--commerzbank-blue);
+    font-size: 1.8rem;
+    text-align: right;
+    font-weight: bold;
+    min-height: 2rem;
+    overflow: hidden;
+    word-break: break-all;
+}
+
+/* Button Grid - Simplified Layout */
+.button-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 15px 0;
+}
+
+/* Rearrange buttons to match sketch: 9,6,1 / 2,8,3 / 7,5,4 */
+#nine-btn { grid-row: 1; grid-column: 1; }
+#six-btn { grid-row: 1; grid-column: 2; }
+#one-btn { grid-row: 1; grid-column: 3; }
+#two-btn { grid-row: 2; grid-column: 1; }
+#eight-btn { grid-row: 2; grid-column: 2; }
+#three-btn { grid-row: 2; grid-column: 3; }
+#seven-btn { grid-row: 3; grid-column: 1; }
+#five-btn { grid-row: 3; grid-column: 2; }
+#four-btn { grid-row: 3; grid-column: 3; }
+
+/* Base Button Styles - Simplified */
+.btn {
+    border: 1px solid var(--commerzbank-blue);
+    border-radius: 4px;
+    font-size: 1.5rem;
+    font-weight: normal;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    background: var(--commerzbank-white);
+    color: var(--commerzbank-blue);
+    height: 60px;
+    font-family: inherit;
+}
+
+.btn:hover {
+    background: var(--commerzbank-yellow);
+}
+
+.btn:active {
+    background: var(--commerzbank-blue);
+    color: var(--commerzbank-white);
+}
+
+/* Simplified Button Type Styles */
+.btn-number, .btn-operator, .btn-function, .btn-equals, .btn-decimal {
+    background: var(--commerzbank-white);
+    color: var(--commerzbank-blue);
+    border: 1px solid var(--commerzbank-blue);
+}
+
+.btn-number:hover, .btn-operator:hover, .btn-function:hover, .btn-equals:hover, .btn-decimal:hover {
+    background: var(--commerzbank-yellow);
+}
+
+.btn-number:active, .btn-operator:active, .btn-function:active, .btn-equals:active, .btn-decimal:active {
+    background: var(--commerzbank-blue);
+    color: var(--commerzbank-white);
+}
+
+/* Message Container */
+.message-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.message {
+    background: var(--commerzbank-yellow);
+    color: var(--commerzbank-blue);
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid var(--commerzbank-blue);
+    font-weight: bold;
+    animation: messageSlide 0.3s ease-out;
+}
+
+@keyframes messageSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Footer */
+.calculator-footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--pirate-brown);
+    font-style: italic;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    :root {
+        --pirate-navy: #000080;
+        --pirate-gold: #ffff00;
+        --pirate-cream: #ffffff;
+        --text-dark: #000000;
+        --text-light: #ffffff;
+    }
+    
+    .btn {
+        border-width: 3px;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .btn {
+        transition: none;
+    }
+    
+    .pirate-mode-indicator,
+    .skull,
+    .message {
+        animation: none;
+    }
+    
+    .btn:hover {
+        transform: none;
+    }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+    .calculator-container {
+        padding: 20px;
+        margin: 10px;
+    }
+    
+    .calculator-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .main-display {
+        font-size: 2rem;
+    }
+    
+    .btn {
+        font-size: 1.1rem;
+    }
+    
+    .button-grid {
+        gap: 8px;
+        height: 280px;
+    }
+}
+
+@media (max-width: 360px) {
+    .calculator-container {
+        padding: 15px;
+    }
+    
+    .main-display {
+        font-size: 1.8rem;
+    }
+    
+    .btn {
+        font-size: 1rem;
+    }
+    
+    .button-grid {
+        height: 250px;
+        gap: 6px;
+    }
+}
+
+/* Focus Styles for Accessibility */
+.btn:focus {
+    outline: 3px solid var(--pirate-gold);
+    outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+    
+    .calculator-container {
+        border: 2px solid black;
+        box-shadow: none;
+    }
+}
