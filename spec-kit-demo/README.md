@@ -30,6 +30,9 @@ uvx --from git+https://github.com/github/spec-kit.git specify init demo
 2. Start using slash commands with your AI agent:
    - 2.1 `/speckit.constitution` - Establish project principles
    - 2.2 `/speckit.specify` - Create baseline specification
+   - ○ `/speckit.clarify` (optional) - Ask structured questions to de-risk ambiguous areas before planning (run before /speckit.plan if used)
    - 2.3 `/speckit.plan` - Create implementation plan
+   - ○ `/speckit.checklist` (optional) - Generate quality checklists to validate requirements completeness, clarity, and consistency (after /speckit.plan)
    - 2.4 `/speckit.tasks` - Generate actionable tasks
+   - ○ `/speckit.analyze` (optional) - Cross-artifact consistency & alignment report (after /speckit.tasks, before /speckit.implement)
    - 2.5 `/speckit.implement` - Execute implementation
