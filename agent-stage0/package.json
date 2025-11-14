@@ -1,0 +1,17 @@
+{
+  "name": "calculator-stage0",
+  "version": "1.0.0",
+  "description": "Basic calculator for demonstrating Copilot Agent Mode",
+  "main": "calculator.js",
+  "scripts": {
+    "test": "echo \"No tests yet - will be added during demo\""
+  },
+  "keywords": [
+    "calculator",
+    "demo",
+    "copilot",
+    "agent-mode"
+  ],
+  "author": "",
+  "license": "MIT"
+}
