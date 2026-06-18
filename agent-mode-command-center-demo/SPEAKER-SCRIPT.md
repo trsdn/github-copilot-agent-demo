@@ -50,9 +50,7 @@ This is where inline suggestions stop being enough. We need planning first.
 
 Live prompt:
 
-```text
-Read AGENTS.md and requirements/launch-request.md. Use Plan Mode. Create a small implementation plan, identify risks, and name the cheapest validation command. Do not edit files.
-```
+> Read AGENTS.md and requirements/launch-request.md. Use Plan Mode. Create a small implementation plan, identify risks, and name the cheapest validation command. Do not edit files.
 
 Say while it works:
 
@@ -73,9 +71,7 @@ This is a good moment to steer the agent. I can ask for a shorter plan or tell i
 
 Backup prompt:
 
-```text
-Shorten this to a 5-step plan and name only the files you expect to touch.
-```
+> Shorten this to a 5-step plan and name only the files you expect to touch.
 
 Transition:
 
@@ -85,9 +81,7 @@ Now that we have a plan, I want to show a pattern that is becoming more importan
 
 Live prompt:
 
-```text
-Run an Agent Council for this change. Use Planner, Release Strategist, QA Analyst, Security Reviewer, and Implementer perspectives. Synthesize one recommendation instead of giving five disconnected reports.
-```
+> Run an Agent Council for this change. Use Planner, Release Strategist, QA Analyst, Security Reviewer, and Implementer perspectives. Synthesize one recommendation instead of giving five disconnected reports.
 
 Say:
 
@@ -112,9 +106,7 @@ If the council is messy:
 
 Backup prompt:
 
-```text
-Turn that into one decision table with Recommendation, Evidence, Risks, Smallest Change, and Validation.
-```
+> Turn that into one decision table with Recommendation, Evidence, Risks, Smallest Change, and Validation.
 
 Transition:
 
@@ -124,9 +116,7 @@ Now we move from reasoning to action. This is the part that is different from no
 
 Live prompt:
 
-```text
-Implement the EU privacy-review hard blocker. Keep the change focused. Update tests. Run validation. Stop and report the result.
-```
+> Implement the EU privacy-review hard blocker. Keep the change focused. Update tests. Run validation. Stop and report the result.
 
 Say while it works:
 
@@ -146,17 +136,13 @@ This is actually a useful part of the demo. The promise is not that the first at
 
 Backup prompt:
 
-```text
-The test failed. Read the failure, explain the root cause in one sentence, make the smallest fix, and rerun npm test.
-```
+> The test failed. Read the failure, explain the root cause in one sentence, make the smallest fix, and rerun npm test.
 
 If the agent changes too much:
 
 Backup prompt:
 
-```text
-Reduce the diff. Only change readiness.js and readiness.test.js. Preserve the existing scoring model.
-```
+> Reduce the diff. Only change readiness.js and readiness.test.js. Preserve the existing scoring model.
 
 Transition:
 
@@ -170,15 +156,11 @@ MCP matters because real engineering work does not live only in source files. It
 
 Preferred prompt:
 
-```text
-Use available MCP tools to gather one piece of external evidence or create a follow-up artifact for this release decision. If no MCP tool is available, explain what you would use: GitHub issues, Playwright, Microsoft Learn, Azure, or work items.
-```
+> Use available MCP tools to gather one piece of external evidence or create a follow-up artifact for this release decision. If no MCP tool is available, explain what you would use: GitHub issues, Playwright, Microsoft Learn, Azure, or work items.
 
 If Microsoft Docs MCP is available:
 
-```text
-Use Microsoft Docs MCP to find official documentation for GitHub Copilot custom instructions, prompt files, custom agents, skills, and MCP. Summarize the links I should show in Q&A.
-```
+> Use Microsoft Docs MCP to find official documentation for GitHub Copilot custom instructions, prompt files, custom agents, skills, and MCP. Summarize the links I should show in Q&A.
 
 If no MCP works:
 
@@ -194,9 +176,7 @@ The last step is handoff. This is important because teams do not need impressive
 
 Live prompt:
 
-```text
-Produce a reviewer-ready handoff: what changed, why, tests run, residual risks, and what the audience should notice about Agent Mode.
-```
+> Produce a reviewer-ready handoff: what changed, why, tests run, residual risks, and what the audience should notice about Agent Mode.
 
 Say:
 
