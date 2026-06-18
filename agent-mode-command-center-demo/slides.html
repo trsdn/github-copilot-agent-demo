@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agent Mode Command Center Demo</title>
+    <script>
+      (() => {
+        const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+        const theme =
+          param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+    <style>
+      :root {
+        color-scheme: light;
+        --cp-bg: #f7f4ef;
+        --cp-bg-elevated: #fcfbf8;
+        --cp-surface: #ffffff;
+        --cp-surface-soft: #f5f5f5;
+        --cp-border: #dedede;
+        --cp-border-strong: #919191;
+        --cp-text: #242424;
+        --cp-text-muted: #5c5c5c;
+        --cp-text-soft: #6f6f6f;
+        --cp-accent: #b11f4b;
+        --cp-accent-hover: #9a1a41;
+        --cp-accent-soft: rgba(177, 31, 75, 0.08);
+        --cp-accent-fg: #ffffff;
+        --cp-success: #16a34a;
+        --cp-danger: #dc2626;
+        --cp-warning: #f59e0b;
+        --cp-link: #0078d4;
+        --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+        --cp-overlay: rgba(255, 255, 255, 0.8);
+        --cp-panel: rgba(255, 255, 255, 0.86);
+        --cp-panel-strong: rgba(255, 255, 255, 0.96);
+        --cp-sheen: rgba(255, 255, 255, 0.55);
+        --cp-highlight: rgba(177, 31, 75, 0.12);
+      }
+      html[data-theme="dark"] {
+        color-scheme: dark;
+        --cp-bg: #3d3b3a;
+        --cp-bg-elevated: #343231;
+        --cp-surface: #292929;
+        --cp-surface-soft: #2e2e2e;
+        --cp-border: #474747;
+        --cp-border-strong: #5f5f5f;
+        --cp-text: #dedede;
+        --cp-text-muted: #919191;
+        --cp-text-soft: #b0b0b0;
+        --cp-accent: #fd8ea1;
+        --cp-accent-hover: #fb7b91;
+        --cp-accent-soft: rgba(253, 142, 161, 0.14);
+        --cp-accent-fg: #1a1a1a;
+        --cp-success: #4ade80;
+        --cp-danger: #f87171;
+        --cp-warning: #fbbf24;
+        --cp-link: #4da6ff;
+        --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+        --cp-overlay: rgba(41, 41, 41, 0.88);
+        --cp-panel: rgba(41, 41, 41, 0.72);
+        --cp-panel-strong: rgba(41, 41, 41, 0.96);
+        --cp-sheen: rgba(255, 255, 255, 0.04);
+        --cp-highlight: rgba(253, 142, 161, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        overflow: hidden;
+        background:
+          linear-gradient(90deg, var(--cp-highlight) 1px, transparent 1px),
+          linear-gradient(180deg, var(--cp-highlight) 1px, transparent 1px),
+          linear-gradient(135deg, var(--cp-bg), var(--cp-bg-elevated));
+        background-size: 96px 96px, 96px 96px, auto;
+        color: var(--cp-text);
+        font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .deck {
+        position: relative;
+        height: 100dvh;
+        display: grid;
+        grid-template-rows: minmax(0, 1fr) 64px;
+      }
+
+      .deck::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: var(--cp-accent);
+        z-index: 4;
+      }
+
+      .slide {
+        display: none;
+        min-height: 0;
+        overflow: hidden;
+        padding: clamp(40px, 5vw, 72px);
+      }
+
+      .slide.active {
+        display: grid;
+        align-content: center;
+      }
+
+      .slide-inner {
+        max-width: 1180px;
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      .title-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.72fr);
+        gap: clamp(28px, 5vw, 64px);
+        align-items: center;
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        color: var(--cp-accent);
+        font-size: clamp(0.78rem, 1.2vw, 0.95rem);
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        max-width: 760px;
+        margin-bottom: 22px;
+        font-size: clamp(3.35rem, 7.2vw, 6.7rem);
+        line-height: 0.9;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        max-width: 980px;
+        margin-bottom: 24px;
+        font-size: clamp(2.25rem, 5vw, 4.8rem);
+        line-height: 1;
+        letter-spacing: 0;
+      }
+
+      .lede {
+        max-width: 880px;
+        color: var(--cp-text-muted);
+        font-size: clamp(1.14rem, 1.7vw, 1.48rem);
+        line-height: 1.45;
+      }
+
+      .title-layout .lede {
+        max-width: 700px;
+      }
+
+      .two-column {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        gap: 32px;
+        align-items: stretch;
+      }
+
+      .panel-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .panel,
+      .prompt,
+      .flow-step,
+      .hero-panel {
+        border: 1px solid var(--cp-border);
+        border-radius: 16px;
+        background: var(--cp-panel-strong);
+        box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
+      }
+
+      .panel {
+        padding: 20px;
+      }
+
+      .hero-panel {
+        padding: 24px;
+      }
+
+      .hero-panel h2 {
+        margin-bottom: 18px;
+        font-size: clamp(1.65rem, 2.6vw, 2.5rem);
+        line-height: 1.05;
+      }
+
+      .loop-list {
+        display: grid;
+        gap: 10px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .loop-list li {
+        display: grid;
+        grid-template-columns: 32px 1fr;
+        gap: 12px;
+        align-items: center;
+        border: 1px solid var(--cp-border);
+        border-radius: 0.625rem;
+        padding: 10px;
+        background: var(--cp-surface-soft);
+      }
+
+      .loop-list b {
+        display: grid;
+        width: 32px;
+        height: 32px;
+        place-items: center;
+        border-radius: 0.625rem;
+        background: var(--cp-accent);
+        color: var(--cp-accent-fg);
+      }
+
+      .loop-list span {
+        color: var(--cp-text-muted);
+        font-weight: 700;
+      }
+
+      .panel strong {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.08rem;
+      }
+
+      .panel span,
+      .panel p {
+        color: var(--cp-text-muted);
+        line-height: 1.45;
+      }
+
+      .big-quote {
+        max-width: 980px;
+        border-left: 6px solid var(--cp-accent);
+        padding-left: 28px;
+        color: var(--cp-text);
+        font-size: clamp(2rem, 4vw, 4.2rem);
+        line-height: 1.05;
+      }
+
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .flow-step {
+        min-height: 148px;
+        padding: 16px;
+      }
+
+      .flow-step b {
+        display: block;
+        color: var(--cp-accent);
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+      }
+
+      .flow-step span {
+        color: var(--cp-text-muted);
+        line-height: 1.35;
+      }
+
+      .prompt {
+        padding: 24px;
+        background: var(--cp-surface);
+        color: var(--cp-text);
+        font-family: Consolas, "Courier New", Courier, monospace;
+        font-size: clamp(1rem, 1.5vw, 1.22rem);
+        line-height: 1.55;
+        white-space: pre-wrap;
+      }
+
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      .tag {
+        border: 1px solid var(--cp-border);
+        border-radius: 0.625rem;
+        padding: 7px 11px;
+        background: var(--cp-surface-soft);
+        color: var(--cp-text-muted);
+        font-size: 0.92rem;
+        font-weight: 800;
+      }
+
+      .section-marker {
+        display: inline-flex;
+        margin-bottom: 24px;
+        border: 1px solid var(--cp-accent);
+        border-radius: 0.625rem;
+        padding: 8px 14px;
+        background: var(--cp-accent-soft);
+        color: var(--cp-accent);
+        font-weight: 800;
+      }
+
+      .controls {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        border-top: 1px solid var(--cp-border);
+        padding: 10px 18px;
+        background: var(--cp-panel-strong);
+      }
+
+      .control-group {
+        display: flex;
+        gap: 8px;
+      }
+
+      .nav-button {
+        border: 1px solid var(--cp-border-strong);
+        border-radius: 0.625rem;
+        padding: 7px 12px;
+        background: var(--cp-surface);
+        color: var(--cp-text);
+        cursor: pointer;
+      }
+
+      .nav-button:disabled {
+        opacity: 0.42;
+        cursor: not-allowed;
+      }
+
+      .nav-button:hover,
+      .nav-button:focus-visible {
+        border-color: var(--cp-accent);
+        outline: none;
+      }
+
+      .counter {
+        color: var(--cp-text-muted);
+        font-weight: 700;
+      }
+
+      @media (max-width: 900px) {
+        body {
+          overflow: auto;
+        }
+
+        .deck {
+          min-height: 100dvh;
+        }
+
+        .slide {
+          min-height: calc(100vh - 64px);
+        }
+
+        .title-layout,
+        .two-column,
+        .panel-grid,
+        .flow {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="deck" aria-live="polite">
+      <section class="slide active" data-title="Title">
+        <div class="slide-inner title-layout">
+          <div>
+            <p class="eyebrow">GitHub Copilot in VS Code</p>
+            <h1>GitHub Copilot Agent Mode</h1>
+            <p class="lede">Code smarter, not harder. A one-hour session with Torsten Mahr, Microsoft, on June 18th, 2026.</p>
+            <div class="tag-row">
+              <span class="tag">Plan Mode</span>
+              <span class="tag">Agent Mode</span>
+              <span class="tag">Skills</span>
+              <span class="tag">MCP</span>
+              <span class="tag">Sub-agents</span>
+            </div>
+          </div>
+          <div class="hero-panel" aria-label="Agent Mode loop">
+            <p class="eyebrow">Agent Mode Loop</p>
+            <h2>From request to reviewable work</h2>
+            <ol class="loop-list">
+              <li><b>1</b><span>Read context</span></li>
+              <li><b>2</b><span>Create a plan</span></li>
+              <li><b>3</b><span>Edit and run tools</span></li>
+              <li><b>4</b><span>Validate and hand off</span></li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Session Promise">
+        <div class="slide-inner">
+          <p class="eyebrow">Session Promise</p>
+          <h2>The next level of AI-assisted software development</h2>
+          <p class="lede">We will explore Copilot Agent Mode as an autonomous pair programmer for multi-step tasks: analyzing context, generating plans, modifying code, running validation, and iteratively improving when errors appear.</p>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Part 1">
+        <div class="slide-inner">
+          <span class="section-marker">Part 1: Conceptual Frame</span>
+          <h2>Before the demo, build the mental model</h2>
+          <p class="lede">First we explain when Agent Mode matters, how it differs from inline suggestions and chat, and which building blocks make it useful in real repositories.</p>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Positioning">
+        <div class="slide-inner">
+          <p class="eyebrow">Core Message</p>
+          <div class="big-quote">Inline Copilot helps with the next line. Agent Mode helps with the next outcome.</div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Why Change">
+        <div class="slide-inner two-column">
+          <div>
+            <p class="eyebrow">The Shift</p>
+            <h2>From code completion to engineering workflow</h2>
+          </div>
+          <div class="panel-grid">
+            <div class="panel"><strong>Inline</strong><span>Great for local code, APIs, expressions, and boilerplate.</span></div>
+            <div class="panel"><strong>Chat</strong><span>Great for explanations, alternatives, and lightweight Q&amp;A.</span></div>
+            <div class="panel"><strong>Plan Mode</strong><span>Useful when the task needs context, constraints, and sequencing before edits.</span></div>
+            <div class="panel"><strong>Agent Mode</strong><span>Useful when the work spans files, tests, tools, validation, and handoff.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Mental Model">
+        <div class="slide-inner">
+          <p class="eyebrow">Mental Model</p>
+          <h2>Give the agent four things</h2>
+          <div class="panel-grid">
+            <div class="panel"><strong>Context</strong><span>Repo files, requirements, tests, and prior decisions.</span></div>
+            <div class="panel"><strong>Constraints</strong><span>Instructions, scope, acceptance criteria, and safety boundaries.</span></div>
+            <div class="panel"><strong>Tools</strong><span>Terminal, tests, MCP servers, browser automation, docs, or work items.</span></div>
+            <div class="panel"><strong>Validation</strong><span>Commands, checks, review handoff, and human approval.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Agenda">
+        <div class="slide-inner">
+          <p class="eyebrow">Agenda</p>
+          <div class="flow">
+            <div class="flow-step"><b>1</b><span>Concept: where inline suggestions and chat stop.</span></div>
+            <div class="flow-step"><b>2</b><span>Concept: Plan Mode, Agent Mode, skills, prompts, agents, MCP.</span></div>
+            <div class="flow-step"><b>3</b><span>Demo: launch-readiness command center.</span></div>
+            <div class="flow-step"><b>4</b><span>Demo: code change, validation, handoff.</span></div>
+            <div class="flow-step"><b>5</b><span>Wrap-up plus 10 minutes of Q&amp;A.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Part 2">
+        <div class="slide-inner">
+          <span class="section-marker">Part 2: Live Demo</span>
+          <h2>Now we move from concept to action</h2>
+          <p class="lede">The live demo uses a small release-readiness codebase so Agent Mode can plan, coordinate a council, change code, run tests, optionally use MCP, and produce a reviewable handoff.</p>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Scenario">
+        <div class="slide-inner">
+          <p class="eyebrow">Demo Scenario</p>
+          <h2>Launch Readiness Command Center</h2>
+          <p class="lede">A checkout release has mixed signals: tests are mostly green, a production incident is open, EU privacy review is unresolved, and the team needs a ship / hold / limited-rollout recommendation.</p>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Repo Assets">
+        <div class="slide-inner">
+          <p class="eyebrow">What The Repo Contains</p>
+          <div class="panel-grid">
+            <div class="panel"><strong>Code</strong><span><code>src/readiness.js</code>, <code>src/signals.js</code>, <code>tests/readiness.test.js</code></span></div>
+            <div class="panel"><strong>Instructions</strong><span><code>AGENTS.md</code> tells Agent Mode how to work in this demo.</span></div>
+            <div class="panel"><strong>Prompts</strong><span>Reusable flows for planning, council, implementation, and MCP moments.</span></div>
+            <div class="panel"><strong>Skills</strong><span>Domain knowledge for release readiness, agent councils, MCP showcase, and storytelling.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Flow">
+        <div class="slide-inner">
+          <p class="eyebrow">Live Flow</p>
+          <div class="flow">
+            <div class="flow-step"><b>1</b><span>Show inline baseline in ordinary JavaScript.</span></div>
+            <div class="flow-step"><b>2</b><span>Use Plan Mode to scope the release-readiness change.</span></div>
+            <div class="flow-step"><b>3</b><span>Run an Agent Council with specialized roles.</span></div>
+            <div class="flow-step"><b>4</b><span>Let Agent Mode edit code and update tests.</span></div>
+            <div class="flow-step"><b>5</b><span>Validate, add an MCP moment, and hand off like a PR.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Council">
+        <div class="slide-inner two-column">
+          <div>
+            <p class="eyebrow">Agent Council</p>
+            <h2>One chat, multiple perspectives</h2>
+          </div>
+          <div class="panel-grid">
+            <div class="panel"><strong>Planner</strong><span>Frames scope, assumptions, and validation.</span></div>
+            <div class="panel"><strong>Release Strategist</strong><span>Owns ship, hold, or limited rollout.</span></div>
+            <div class="panel"><strong>QA Analyst</strong><span>Checks tests, flakes, and regression risk.</span></div>
+            <div class="panel"><strong>Security Reviewer</strong><span>Checks privacy and security blockers.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Plan Prompt">
+        <div class="slide-inner">
+          <p class="eyebrow">Prompt 1</p>
+          <h2>Start with Plan Mode</h2>
+          <div class="prompt">Read AGENTS.md and requirements/launch-request.md. Use Plan Mode. Create a small implementation plan, identify risks, and name the cheapest validation command. Do not edit files.</div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Council Prompt">
+        <div class="slide-inner">
+          <p class="eyebrow">Prompt 2</p>
+          <h2>Run the council in chat</h2>
+          <div class="prompt">Run an Agent Council for this change. Use Planner, Release Strategist, QA Analyst, Security Reviewer, and Implementer perspectives. Synthesize one recommendation instead of giving five disconnected reports.</div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Implementation Prompt">
+        <div class="slide-inner">
+          <p class="eyebrow">Prompt 3</p>
+          <h2>Let Agent Mode implement</h2>
+          <div class="prompt">Implement the EU privacy-review hard blocker. Keep the change focused. Update tests. Run validation. Stop and report the result.</div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="MCP">
+        <div class="slide-inner two-column">
+          <div>
+            <p class="eyebrow">MCP Moment</p>
+            <h2>Tools connect the agent to real engineering systems</h2>
+          </div>
+          <div class="panel-grid">
+            <div class="panel"><strong>GitHub</strong><span>Issues, PR context, review handoff.</span></div>
+            <div class="panel"><strong>Microsoft Learn</strong><span>Official docs for Q&amp;A and grounding.</span></div>
+            <div class="panel"><strong>Playwright</strong><span>Browser automation and runtime validation.</span></div>
+            <div class="panel"><strong>Azure / Work Items</strong><span>Deployment context and acceptance criteria.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Close">
+        <div class="slide-inner">
+          <p class="eyebrow">Takeaway</p>
+          <h2>Agent Mode is not a bigger autocomplete.</h2>
+          <p class="lede">It is a way to give Copilot context, constraints, tools, roles, validation, and a handoff discipline.</p>
+        </div>
+      </section>
+
+      <footer class="controls">
+        <div class="counter" id="counter">1 / 12</div>
+        <div class="control-group">
+          <button class="nav-button" id="prev" type="button">Previous</button>
+          <button class="nav-button" id="next" type="button">Next</button>
+        </div>
+      </footer>
+    </main>
+
+    <script>
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const counter = document.querySelector("#counter");
+      const previousButton = document.querySelector("#prev");
+      const nextButton = document.querySelector("#next");
+      let currentIndex = 0;
+
+      function showSlide(index) {
+        currentIndex = Math.max(0, Math.min(index, slides.length - 1));
+        slides.forEach((slide, slideIndex) => {
+          slide.classList.toggle("active", slideIndex === currentIndex);
+        });
+        counter.textContent = `${currentIndex + 1} / ${slides.length}`;
+        previousButton.disabled = currentIndex === 0;
+        nextButton.disabled = currentIndex === slides.length - 1;
+      }
+
+      previousButton.addEventListener("click", () => showSlide(currentIndex - 1));
+      nextButton.addEventListener("click", () => showSlide(currentIndex + 1));
+      document.addEventListener("keydown", (event) => {
+        if (["ArrowRight", "PageDown", " "].includes(event.key)) {
+          event.preventDefault();
+          showSlide(currentIndex + 1);
+        }
+
+        if (["ArrowLeft", "PageUp"].includes(event.key)) {
+          event.preventDefault();
+          showSlide(currentIndex - 1);
+        }
+      });
+
+      showSlide(0);
+    </script>
+  </body>
+</html>

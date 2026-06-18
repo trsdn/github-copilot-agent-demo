@@ -1,0 +1,14 @@
+{
+  "name": "agent-mode-command-center-demo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Agent Mode demo for planning, skills, sub-agent council, MCP moments, code changes, and validation.",
+  "scripts": {
+    "start": "node src/cli.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
