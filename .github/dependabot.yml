@@ -1,0 +1,7 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/agent-mode-command-center-demo"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
